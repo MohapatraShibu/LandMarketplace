@@ -2,6 +2,11 @@
 
 A functional prototype of a real estate land marketplace mobile application with a WhatsApp-inspired interface. Supports buyers, sellers, and brokers with land listings, messaging, and in-app audio/video calling.
 
+## Live Demo
+
+- **Backend (Render):** https://landmarketplace.onrender.com/
+- **Frontend (Netlify):** https://helpful-entremet-4e64ed.netlify.app
+
 ## Features
 
 - User registration and login with role management (Buyer, Seller, Broker)
