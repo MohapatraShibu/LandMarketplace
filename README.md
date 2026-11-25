@@ -27,16 +27,40 @@ A functional prototype of a real estate land marketplace mobile application with
 
 ```
 LandMarketplace/
+├── .env                          # Environment variables (local, gitignored)
+├── .env.example                  # Environment template (committed to Git)
+├── .gitignore                    # Git ignore rules
+├── README.md                     # Setup and deployment instructions
+├── script.md                     # Demonstration video script
+├── TECHNICAL_DOCUMENTATION.md    # Technical architecture and decisions
+├── AI_TOOLS_USAGE.md             # AI tools collaboration summary
 ├── backend/
-│   ├── main.py          # FastAPI application
-│   └── requirements.txt # Python dependencies
+│   ├── main.py                   # FastAPI application (auth, listings, messages, WebSocket)
+│   ├── requirements.txt          # Python dependencies
+│   ├── Procfile                  # Render deployment config
+│   ├── runtime.txt               # Python version for Render
+│   └── landconnect.db            # SQLite database (auto-created)
 ├── frontend/
-│   ├── App.js           # Navigation entry point
-│   ├── package.json     # Node dependencies
+│   ├── App.js                    # Navigation entry point
+│   ├── package.json              # Node dependencies and scripts
+│   ├── app.json                  # Expo web configuration
+│   ├── netlify.toml              # Netlify deployment config
+│   ├── .env                      # Frontend environment variables (local, gitignored)
+│   ├── .env.example              # Frontend environment template
+│   ├── web-build/                # Built web files (for Netlify deployment)
 │   └── src/
-│       ├── screens/     # All screens
-│       ├── services/    # API service
-│       └── ...
+│       ├── screens/
+│       │   ├── LoginScreen.js
+│       │   ├── RegisterScreen.js
+│       │   ├── HomeScreen.js
+│       │   ├── ListingDetailScreen.js
+│       │   ├── CreateListingScreen.js
+│       │   ├── MessagesScreen.js
+│       │   ├── CallScreen.js
+│       │   ├── ProfileScreen.js
+│       │   └── MapScreen.js
+│       └── services/
+│           └── api.js            # Axios API client
 ```
 
 ## Setup and Execution Commands
