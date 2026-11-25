@@ -35,7 +35,7 @@ LandMarketplace/
 ├── TECHNICAL_DOCUMENTATION.md    # Technical architecture and decisions
 ├── AI_TOOLS_USAGE.md             # AI tools collaboration summary
 ├── backend/
-│   ├── main.py                   # FastAPI application (auth, listings, messages, WebSocket)
+│   ├── main.py                   # FastAPI application (auth, listings, messages)
 │   ├── requirements.txt          # Python dependencies
 │   ├── Procfile                  # Render deployment config
 │   ├── runtime.txt               # Python version for Render
@@ -47,7 +47,6 @@ LandMarketplace/
 │   ├── netlify.toml              # Netlify deployment config
 │   ├── .env                      # Frontend environment variables (local, gitignored)
 │   ├── .env.example              # Frontend environment template
-│   ├── web-build/                # Built web files (for Netlify deployment)
 │   └── src/
 │       ├── screens/
 │       │   ├── LoginScreen.js
@@ -69,14 +68,13 @@ LandMarketplace/
 
 1. Create virtual environment:
 ```
-cd D:\company_task\LandMarketplace\backend
+cd backend
 python -m venv venv
 venv\Scripts\Activate.ps1
 ```
 
 2. Copy environment variables (from project root):
 ```
-cd D:\company_task\LandMarketplace
 copy .env.example .env
 ```
 3. Install dependencies:
@@ -86,6 +84,7 @@ pip install -r requirements.txt
 
 4. Run the server:
 ```
+cd backend
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
@@ -93,7 +92,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 1. Install dependencies:
 ```
-cd D:\company_task\LandMarketplace\frontend
+cd frontend
 npm install
 ```
 
@@ -138,16 +137,15 @@ git push -u origin main
    - `PORT` = 10000 (Render default) or leave default
 6. Note your backend URL (e.g. `https://landconnect.onrender.com`).
 
-### Frontend (Expo / Web)
+### Frontend (Netlify)
 
 1. Update `frontend/.env` with your deployed backend URL:
    ```
    EXPO_PUBLIC_API_BASE=https://your-backend-url.onrender.com
    ```
-2. Run `npx expo start` and scan with Expo Go, or build for web:
-   ```
-   npx expo export -p web
-   ```
+2. Go to netlify.com and drag-and-drop the `frontend/` folder (or connect your GitHub repo).
+3. Set the build command to `npm run build` and publish directory to `frontend/` for static hosting.
+4. Note your frontend URL (e.g. `https://helpful-entremet-4e64ed.netlify.app`).
 
 ### Important Notes for Deployment
 
@@ -167,4 +165,3 @@ git push -u origin main
 - GET /messages/{user_id} - Get messages with user
 - POST /messages - Send message
 - GET /users - List all users
-- WS /ws/{user_id} - WebSocket signaling for calls

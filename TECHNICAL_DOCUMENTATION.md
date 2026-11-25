@@ -8,24 +8,24 @@
 - **Frontend**: React Native with Expo – cross-platform mobile, runs via Expo Go app
 - **Navigation**: React Navigation – stack-based screen navigation
 - **HTTP Client**: Axios – REST API calls from mobile app
-- **Calling**: WebRTC (browser/native API) + WebSocket signaling – peer-to-peer audio/video
-- **Maps**: OpenStreetMap free tiles (planned integration point)
+- **Calling**: Simulated audio/video call flow (initiate, receive, accept/reject, end, mute, video toggle) — no WebRTC or WebSocket required, works in browser demo
+- **Maps**: OpenStreetMap free tiles (static map display)
 
 ## Architecture
 
 The application follows a client-server model:
 
-1. **Backend (FastAPI)** runs on port 8000 and exposes REST APIs plus a WebSocket endpoint.
+1. **Backend (FastAPI)** runs on port 8000 and exposes REST APIs.
 2. **SQLite database** stores users, listings, and messages in a single file (`landconnect.db`).
-3. **Frontend (React Native/Expo)** connects to the backend via Axios for REST and WebSocket for call signaling.
-4. **WebRTC** establishes direct peer-to-peer media streams between callers and receivers.
+3. **Frontend (React Native/Expo)** connects to the backend via Axios for REST API calls.
+4. **Calling** is a simulated flow handled entirely on the frontend — calling → incoming (2 second delay) → active → end, with mute and video toggle buttons.
 
 ### Data Flow
 
 - User registers/logs in → JWT token issued → stored locally on device
 - Token sent with every API request → backend validates and returns user data
 - Listings and messages stored in SQLite, returned as JSON
-- Call signaling: caller sends offer via WebSocket → receiver gets incoming call → answer exchanged → WebRTC peer connection established → media flows directly
+- Calling: user taps "Video Call" → screen shows "Calling..." → after 2 seconds shows "Incoming Call" with Accept/Reject → tap Accept shows active call screen with Mute/Stop Video/End Call buttons → tap End Call returns to previous screen
 
 ## Implementation Decisions
 
@@ -43,14 +43,14 @@ The application follows a client-server model:
 
 ## Major Technical Challenges
 
-1. **WebRTC on mobile**: Requires camera/microphone permissions. Handled with try/catch and permission alerts.
-2. **Signaling server**: WebSocket connection relays SDP offers/answers and ICE candidates between peers.
-3. **Local network testing**: Backend accessed via `10.0.2.2` (Android emulator localhost alias) or machine IP for physical devices.
-4. **Role enforcement**: Backend checks user role on listing create/edit/delete endpoints.
+1. **Simulated calling on mobile**: No camera/microphone permissions needed since calling is simulated. Handled with state transitions and button alerts.
+2. **Local network testing**: Backend accessed via `localhost:8000` for web browser demo, or machine IP for physical devices on same network.
+3. **Role enforcement**: Backend checks user role on listing create/edit/delete endpoints.
+4. **CORS configuration**: Backend allows all origins so frontend can connect from Netlify or localhost.
 
 ## File Summary
 
-- `backend/main.py` – all API routes, WebSocket signaling, database initialization
+- `backend/main.py` – all API routes, database initialization
 - `frontend/App.js` – navigation stack
-- `frontend/src/screens/` – Login, Register, Home, ListingDetail, CreateListing, Messages, Call, Profile
+- `frontend/src/screens/` – Login, Register, Home, ListingDetail, CreateListing, Messages, Call, Profile, Map
 - `frontend/src/services/api.js` – Axios API client with JWT interceptor
