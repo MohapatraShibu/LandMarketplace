@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "landconnect",
+    "slug": "landconnect",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    }
+  }
+}
